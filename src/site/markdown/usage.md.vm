@@ -1,0 +1,74 @@
+Usage of this tool
+------------------
+
+When you document your project using mardown you have to create the site source structure following the maven conventions:
+
+    +-src
+       |
+       +-main
+       |  |
+       |  +-java
+       |  |
+       |  +-resources
+       |
+       +-site
+          |
+          +-markdown
+             |
+             +-index.md.vm
+             |
+             +-design.md.vm
+             |
+             +-usage.md.vm
+             |
+             +-snippet
+             
+On the tree diagram above you can see the documentation source files of this project. There are three pages in the `src/site/markdown` directory and the documentation files have `.md.vm` extensions. The extra extension `.vm` tells maven to filter the file through velocity.
+
+The file `snippet` contains the velocity macros that perform the actual task when a file snippet is included into the documentation. This file should be copied from this project to your documentation directory. This is all you need from this project in addition to the know how. There is no extra plugin or any magic you need. Your project will remain totally standard maven using only an extra velocity macro file of 25 lines.
+
+When you want to include some part of a file into your documentation you should first mark the start and the end of the part in the source file. This will probably be some kind of comment that has different format in XML, Java and any other language. In java for example you can write
+
+    // SNIPPET START: my_snippet
+    public final static String snippetCode = "some string";
+    public final static int ONE = 1;
+    // SNIPPET END: my_snippet
+
+If you have an XML file then you can write
+
+    <!-- SNIPPET START: xml_snippet -->
+    <links>
+			<item name="Apache" href="http://www.apache.org/" />
+			<item name="Maven 2" href="http://maven.apache.org/" />
+			<item name="doxia-markdown" href="http://code.google.com/p/doxia-module-markdown/" />
+	</links>
+    <!-- SNIPPET END: xml_snippet -->
+
+The macro will think that a snippet starts on the next line of the source if it finds a line in the code that contains the string
+
+    SNIPPET START: name
+    
+where `SNIPPET START:` should be written as you see, all capital letters, `:` adjacent to the letter `T` and one or more space between the two words. The `name` can actually be some string that can contain spaces, but you better do not. Use something that is identifier like, and put one or more space between the name and the `:` colon.
+
+The macro will think that the snippet finished on the previous line if it finds a line in the code that contains the string
+
+
+    SNIPPET END: name
+    
+Similar rules apply as in `SNIPPET START`, let me not repeat myself.
+
+When you want to include the snippet into the markdown document you have to use some velocity macros.
+#set($hash = "#")
+You have to define two velocity variables, `$snippetFile` and `$snippetName`. You can do that using the commands:
+
+    ${hash}set( $snippetFile = "/src/site/markdown/snippet" )
+    ${hash}set( $snippetName = "" )
+    ${hash}parse( "snippet" )
+
+The variable `$snippetFile` should contain the name of the file that contains the snippet and the name has to be specified using full path starting from the root of the project.
+
+The variable `$snippetName` should contain the string that identifies the snippet and which is used in the source file following the `START SNIPPET:` and `END SNIPPET:` containing lines. When these variables are defined you should `${hash}parse()` the file `snippet.vm`.
+
+You can define the two variables anywhere before the `parse`, but it is recommended to do it along with the parse velocity directive. Using two separate variables not only eases the life of the macro in `snippet` but also makes it handy when you want to include different snippets from the same file one after the other.
+
+See also the [frequently asked questions page](faq.html).

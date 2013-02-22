@@ -1,0 +1,12 @@
+Including Sample Code into Markdown Documents
+---------------------------------------------
+
+Markdown is a popular markup language used by many tools. This is also getting wide spread to document maven projects along with the Twitter Bootstrap style. There are nice editors that help you create good looking document. In short: it is a good and supported format, would be nice to use.
+
+The only drawback was that it does not contain macro possibilities. The APT format originally used by maven to generate site document made it possible to use the `snippet` macro that could include sampel code from your project. It could include
+some part of the file or all the file.
+
+To do the same when using markdown you can use the Velocity template engine used by maven and started automatically when
+a markdown document has the extra extension `.vm`. This project is a sample project to demonstarte how to create a documentation that includes various parts of the source code. The snippet macro is implemented in velocity and is compatible with the original doxia snippet macro so long as long the notation in the source file is considered. The usage in the documenation file is a bit different, since markdown is not APT and because doxia is not velocity.
+
+For more information [see the usage page](usage.html) or for an explanation how the macros work visit the [design page](design.html).

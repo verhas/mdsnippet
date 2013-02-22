@@ -1,0 +1,25 @@
+#set( $lineCounter = 0 )
+#set( $lineCounterFilePath = "${project.basedir}" + $lineCounterFile )
+#set( $lineCounterWasFound = "$lineCounterName" == "" )
+#if( $lineCounterWasFound )
+#set( $lineCounterStartString = "
+" )
+#set( $lineCounterEndString = "
+" )
+#else
+#set( $lineCounterStartString = "START lineCounter: " + $lineCounterName )
+#set( $lineCounterEndString = "END lineCounter: " + $lineCounterName )
+#end
+#foreach( $line in $StringUtils.split($FileUtils.fileRead( $lineCounterFilePath ),"
+") )
+#set( $checkLine = $StringUtils.removeDuplicateWhitespace( $line ) )
+#if( $StringUtils.contains( $checkLine, $lineCounterEndString ) )
+#set($lineCounterWasFound = false)
+#end
+#if( $lineCounterWasFound )
+#set( $lineCounter = $lineCounter + 1 )
+#end
+#if( $StringUtils.contains( $checkLine, $lineCounterStartString ) )
+#set($lineCounterWasFound = true)
+#end
+#end

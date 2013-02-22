@@ -1,0 +1,14 @@
+Frequently Asked Questions
+--------------------------
+
+> How did you number the lines on the 'Design' page?
+
+Well, have a look at the source. There is a version `snippetCount` of the macro file that puts line numbers in front of the lines.
+
+> How can I parse `snippet` from a subdirectory?
+
+You have to specify the relative path from the file that includes the file `snippet`. For example there is a sample file in the directory of this project called `subdir/sample.md.vm` ([can see here](subdir/sample.html)) that does nothing but includes itself verbatim as code. You can see that it uses `../snippet` to parse in the file.
+
+> Can I include whole files?
+
+Yes, use `""` empty string as snippet name.

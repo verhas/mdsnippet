@@ -1,0 +1,3 @@
+#set( $snippetFile = "/src/site/markdown/subdir/sample.md.vm" )
+#set( $snippetName = "" )
+#parse( "../snippet" )

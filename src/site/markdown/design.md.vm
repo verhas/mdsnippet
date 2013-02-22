@@ -1,0 +1,23 @@
+#macro( snippet $file $name )
+#set( $snippetFile = $file)
+#set( $snippetName = $name)
+#parse( "snippetCount" )
+#end
+Design of the snippet handling
+------------------------------
+#set( $lineCounterFile = "/src/site/markdown/snippet")
+#set( $lineCounterName = "")
+#parse( "linecounter" )
+
+The file `snippet` contains $lineCounter lines:
+
+#snippet( "/src/site/markdown/snippet" , "")
+
+It uses the `\$StringUtils` plexus utility class that is available in the velocity context when maven executes the site plugin.
+The macros first calculate the full path to the sample file, then it calculates the snippet start and snippet end strings. If the name of the snippet is `null` or `""` empty string then it assumes that the whole file has to be included. In this was the variable `\$snippetWasFound` is true when the processing of the file starts and remains so because the file is split to lines along the new line characters and since the start and end strings in this case are set to contain new line character, no line can contain that.
+
+If there is a name specified then the snippet start and end strings are computed normally and the `\$snippetWasFound` variable is false by default.
+
+On line 12 the file content is read into a single, huge string and is split along the newline characters. Note that this is a speciality of velocity that you can not write `\n` in the string to denote a new line character, but you can break the line and the line breaking new line character will become part of the string. The variable `$snippetLine` will go though in the cycle on the lines of the file and when the start of the snippet is foiund then the variable `\$snippetWasFound` will be set to true and when the end line is found `\$snippetWasFound` is set to false.
+
+Note that this implementation makes it possible to have a snippet in a single source file that is at different parts of the file, each having a start and end snippet line.
