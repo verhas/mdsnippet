@@ -35,13 +35,14 @@
 	</scm>
 	<distributionManagement>
 		<site>
-			<id>gitHub</id>
-			<name>gitHub</name>
+			<id>github</id>
+			<name>github</name>
 			<url>git:git@github.com/verhas/mdsnippet</url>
 		</site>
 	</distributionManagement>
 
 	<properties>
+		<github.global.server>github</github.global.server>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -61,11 +62,26 @@
 						<version>1.1.4</version>
 					</dependency>
 				</dependencies>
-
 				<configuration>
 					<inputEncoding>UTF-8</inputEncoding>
 					<outputEncoding>UTF-8</outputEncoding>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.6</version>
+				<configuration>
+					<message>Creating site for ${project.version}</message>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>site</phase>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

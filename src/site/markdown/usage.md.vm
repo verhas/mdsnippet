@@ -71,4 +71,11 @@ The variable `$snippetName` should contain the string that identifies the snippe
 
 You can define the two variables anywhere before the `parse`, but it is recommended to do it along with the parse velocity directive. Using two separate variables not only eases the life of the macro in `snippet` but also makes it handy when you want to include different snippets from the same file one after the other.
 
-See also the [frequently asked questions page](faq.html).
+Finally here is a real example including into this document a snippet from the sample Java file of this project:
+
+
+#set( $snippetFile = "/src/main/java/com/javax0/SampleMain.java" )
+#set( $snippetName = "constructor" )
+#parse( "snippet" )
+
+and that it is...
